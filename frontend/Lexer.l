@@ -19,7 +19,7 @@ BuildOpX(X, new std::string(sb.begin(), sb.end()));\
 }while(0)
 %}
 
-DIGIT                ([0-9])
+DIGIT                ([0-9])            
 INTEGER              ({DIGIT}+)
 IDENTIFIER           ([_A-Za-z][_0-9A-Za-z]*)
 WHITESPACE           ([ \t\n\r]+)

@@ -19,7 +19,7 @@ namespace PageDB {
     int File::newPage() {
         if (pageMap.size() >= MaxPage) {
             //TODO
-            throw "Page Overflow";
+            throw "Page Overflow";   // std::unordered_map<int,int> pageMap
         }
         std::unordered_set<int> Vs;
         for (auto& item : pageMap) {
@@ -52,11 +52,11 @@ namespace PageDB {
         writebackFileHeader();
     }
     void File::initFile() {
-        entryPageID = 0;
-        eof.Page = 0;
+        entryPageID = 0;  //初始化entryPageId为0
+        eof.Page = 0;     //
         eof.Offset = 0;
         pageMap.clear();
-        pageMap[0] = 0;
+        pageMap[0] = 0;   //
         raw_mutex.lock();
         writeZeroPage(raw, 0);
         writeZeroPage(raw, 1);
@@ -114,7 +114,7 @@ namespace PageDB {
         }
         raw_mutex.unlock();
     }
-    File::File(const std::string& fn) : raw(fn, std::ios::in | std::ios::out | std::ios::binary) {
+    File::File(const std::string& fn) : raw(fn, std::ios::in | std::ios::out | std::ios::binary) {//根据string新建File对象
         if (!raw) {
             raw_mutex.lock();
             raw.open(fn, std::ios::out | std::ios::binary | std::ios::trunc);
@@ -137,11 +137,11 @@ namespace PageDB {
         return ret;
     }
     void File::writePage(int page_id, Page* pg) {
-        assert(raw);
-        int offset = pageOffset(page_id);
+        assert(raw);//对fstream测试
+        int offset = pageOffset(page_id);//根据page_id获得pageOffset
         raw_mutex.lock();
-        raw.seekp(offset);
-        raw.write(pg->buf, PAGE_SIZE);
+        raw.seekp(offset);//
+        raw.write(pg->buf, PAGE_SIZE);//
         raw_mutex.unlock();
     }
 }

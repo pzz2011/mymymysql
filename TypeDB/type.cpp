@@ -1,5 +1,5 @@
 #include "type.hpp"
-#include "utils/bufOp.hpp"
+#include "Utils/bufOp.hpp"
 
 namespace TypeDB {
     void IntType::Jump(const char*& buf) {

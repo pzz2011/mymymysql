@@ -10,8 +10,8 @@ namespace Context {
     static const std::string DefaultDB = "test";
     static const std::string DBFilename = "DB.DBX";
     struct Context {
-        PageDB::Scheduler* pgdb;
-        std::string dbName;
+        PageDB::Scheduler* pgdb;   //
+        std::string dbName;        //数据库名
         std::string tblFileName(const std::string& tblName) const {
             return dbName + ":" + tblName + ".db";
         }

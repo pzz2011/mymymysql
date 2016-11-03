@@ -5,8 +5,8 @@
 #include "BTree/Hash.hpp"
 
 namespace TypeDB {
-    struct Object {
-        virtual ~Object();
+    struct Object {                  //对象
+        virtual ~Object();           //构造函数
         virtual bool op_eq(Object* rhs);
         virtual bool op_ne(Object* rhs);
         virtual bool op_lt(Object* rhs);
@@ -21,7 +21,7 @@ namespace TypeDB {
         virtual void write(char*& buf);
         virtual std::string toString();
     };
-    struct Null : public Object {
+    struct Null : public Object {    //NUll对象
         virtual bool op_eq(Object* rhs);
         virtual bool op_ne(Object* rhs);
         virtual bool op_lt(Object* rhs);
@@ -34,7 +34,7 @@ namespace TypeDB {
         virtual BTree::Key hash();
         virtual std::string toString();
     };
-    struct Int : public Object {
+    struct Int : public Object {     //Int对象
         int raw;
         Int(int _raw) : raw(_raw) {}
         virtual bool op_eq(Object* rhs);
@@ -49,12 +49,12 @@ namespace TypeDB {
         virtual void write(char*& buf);
         virtual std::string toString();
     };
-    struct Double : public Object {
+    struct Double : public Object {  //Double对象
         double raw;
         Double(double _raw) : raw(_raw) {}
         virtual std::string toString();
     };
-    struct String : public Object {
+    struct String : public Object {  //String对象
         std::string raw;
         String(const std::string& _raw) : raw(_raw) {}
         String(std::string&& _raw) : raw(std::move(_raw)) {}
@@ -70,13 +70,13 @@ namespace TypeDB {
         virtual void write(char*& buf);
         virtual std::string toString();
     };
-    struct pObject {
+    struct pObject {  //对象指针
         Object* obj;
         int* ref;
-        void Reduce() {if (obj) {(*ref)--;}}
-        void Increase() {if (obj) {(*ref)++;}}
-        pObject() : obj(nullptr), ref(nullptr) {}
-        pObject(Object* _obj) : obj(_obj), ref(new int(1)) {}
+        void Reduce() {if (obj) {(*ref)--;}} //减少引用计数
+        void Increase() {if (obj) {(*ref)++;}} //增加引用计数
+        pObject() : obj(nullptr), ref(nullptr) {} //构造函数，初始化为nullptr
+        pObject(Object* _obj) : obj(_obj), ref(new int(1)) {} //用
         pObject(const pObject& pobj) : obj(pobj.obj), ref(pobj.ref) {Increase();}
         pObject(pObject&& pobj) : obj(pobj.obj), ref(pobj.ref) {pobj.obj = nullptr; pobj.ref = nullptr;}
         pObject& operator=(const pObject& rhs) {
@@ -86,7 +86,7 @@ namespace TypeDB {
             Increase();
             return *this;
         }
-        pObject& operator=(pObject&& rhs) {
+        pObject& operator=(pObject&& rhs) { //赋值操作重载
             Reduce();
             obj = rhs.obj;
             ref = rhs.ref;
@@ -94,8 +94,8 @@ namespace TypeDB {
             rhs.ref = nullptr;
             return *this;
         }
-        Object* operator->() const {return obj;}
-        operator Object*() const {return obj;}
+        Object* operator->() const {return obj;}//成员操作符
+        operator Object*() const {return obj;}//
     };
 }
 

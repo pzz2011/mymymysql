@@ -1,6 +1,7 @@
-#include "context.hpp"
-#include "utils/bufOp.hpp"
 #include "BTree/BTree.hpp"
+#include "context.hpp"
+#include "Utils/bufOp.hpp"
+//#include "BTree/BTree.hpp"
 #include "Utils/writeFile.hpp"
 
 namespace Context {
@@ -66,11 +67,11 @@ namespace Context {
     TypeDB::Table Context::GetTable(const std::string& tblName) const {
         TypeDB::Table ret;
         ret.desc = GetTableDesc(tblName);
-        BTree::BTree btree(pgdb, tblidxFileName(tblName));
+        BTree::BTree btree(pgdb, tblidxFileName(tblName));          ///////////////////////////////////////
         PageDB::ConstIterator pgiter(pgdb, pgdb->OpenFile(tblFileName(tblName)));
-        auto iter = btree.begin(), end = btree.end();
+        auto iter = btree.begin(), end = btree.end();               //////////////////////////////////////
         for (; iter != end; iter.Next()) {
-            auto v = iter.value();
+            auto v = iter.value();                                  //////////////////////////////////////
             pgiter.Goto(v);
             auto buf = pgiter.Get();
             TypeDB::Row row;
@@ -99,14 +100,14 @@ namespace Context {
     }
     void Context::Insert(const std::string& tblName, const TypeDB::Table& tbl) const {
         PageDB::File* tblFile = pgdb->OpenFile(tblFileName(tblName));
-        BTree::BTree btree(pgdb, tblidxFileName(tblName));
+        BTree::BTree btree(pgdb, tblidxFileName(tblName));          /////////////////////////////////////
         auto desc = GetTableDesc(tblName);
         //Test
         for (auto& row : tbl.rows) {
             if (!desc.Test(row)) {
                 throw "Type Check Error";
             }
-            if (btree.find(desc.getPrimary(row)->hash()).first) {
+            if (btree.find(desc.getPrimary(row)->hash()).first) {   /////////////////////////////////////
                 throw "Primary Key Conflict";
             }
         }
@@ -114,9 +115,9 @@ namespace Context {
             auto& descX = desc.descs[i];
             if (descX.type->foreignTable != "") {
                 AssertTable(descX.type->foreignTable);
-                BTree::BTree btreeX(pgdb, tblidxFileName(descX.type->foreignTable));
+                BTree::BTree btreeX(pgdb, tblidxFileName(descX.type->foreignTable)); ///////////////////////
                 for (auto& row : tbl.rows)
-                    if (!btreeX.find(row.objs[i]->hash()).first) {
+                    if (!btreeX.find(row.objs[i]->hash()).first) {  ////////////////////////////////////
                         throw "Foriegn Key Check Error";
                     }
             }
@@ -127,7 +128,7 @@ namespace Context {
         for (const TypeDB::Row& row : tbl.rows) {
             char* eob = WriteRow(writeBuf, row);
             auto loc = Utils::writeFile(pgdb, tblFile, writeBuf, eob - writeBuf);
-            btree.set(desc.getPrimary(row)->hash(), loc, true);
+            btree.set(desc.getPrimary(row)->hash(), loc, true);     ////////////////////////////////////
         }
         delete [] writeBuf;
     }
@@ -179,8 +180,8 @@ namespace Context {
         }
     }
     std::vector<std::string> Context::ReadDB(const std::string& fn) const {
-        PageDB::File* dbFile = pgdb->OpenFile(fn);
-        PageDB::PageSession session = pgdb->GetSession(dbFile, dbFile->entryPageID);
+        PageDB::File* dbFile = pgdb->OpenFile(fn);   //打开文件
+        PageDB::PageSession session = pgdb->GetSession(dbFile, dbFile->entryPageID);//获取会话
         const char* buf = session.buf();
         int size = Utils::readInt(buf);
         std::vector<std::string> ret;

@@ -1,5 +1,5 @@
 #include <string>
-
+#include <cstring>
 namespace Utils {
     typedef unsigned char byte;
     typedef unsigned short word;

@@ -13,8 +13,8 @@ namespace TypeDB {
     struct Type {
         int desc;
         bool null_;
-        std::string foreignTable;
-        std::string foreignKey;
+        std::string foreignTable; //foreignTable
+        std::string foreignKey;   //foreignKey 外
         TypeEnum type;
         Type(int _desc = 0, bool _null_ = true, TypeEnum _type = ErrorTypeEnum) : desc(_desc), null_(_null_), type(_type) {}
         virtual void Jump(const char*& buf) = 0;
@@ -45,7 +45,7 @@ namespace TypeDB {
         }
         StringType(int _desc, bool _null_ = true) : Type(_desc, _null_, StringEnum) {}
         virtual void Jump(const char*& buf);
-        virtual Object* CreateAndJump(const char*& buf);
+        virtual Object* CreateAndJump(const char*& buf); //？？
         virtual std::string toString();
         virtual bool Test(Object* obj);
     };

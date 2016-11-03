@@ -8,7 +8,7 @@ ADD_EXECUTABLE(testContext testContext.cpp)
 TARGET_LINK_LIBRARIES(testContext   context TypeDB Exception BTree PageDB  ${CMAKE_THREAD_LIBS_INIT})
 
 ADD_EXECUTABLE(testParser testParser.cpp)
-TARGET_LINK_LIBRARIES(testParser  Parser   context TypeDB  Exception Stmt BTree PageDB ${CMAKE_THREAD_LIBS_INIT})
+TARGET_LINK_LIBRARIES(testParser  Parser TypeDB Stmt BTree TypeDB context Exception PageDB ${CMAKE_THREAD_LIBS_INIT})
 
 
 # https://www.mawenbao.com/note/cmake.html  链接的顺序影响很大

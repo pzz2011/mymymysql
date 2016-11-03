@@ -15,9 +15,9 @@ namespace PageDB {
         void ScheduleLoop();
         bool running;
     protected:
-        std::map<std::string, File*> fileIndex;
-        std::map<std::pair<File*, int>, PageDesc*> pageIndex;
-        virtual void Schedule() = 0;
+        std::map<std::string, File*> fileIndex; //子类可以访问protected数据 文件索引
+        std::map<std::pair<File*, int>, PageDesc*> pageIndex;//页索引
+        virtual void Schedule() = 0; //纯虚幻书
     public:
         Scheduler() : running(false) {}
         void StartSchedule();

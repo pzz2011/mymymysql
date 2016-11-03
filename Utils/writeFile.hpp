@@ -3,7 +3,7 @@
 #include <utility>
 #include <memory>
 #include "PageDB/scheduler.hpp"
-
+#include<cstring>
 namespace Utils {
     inline PageDB::Location writeFile(PageDB::Scheduler* pgdb, PageDB::File* file, const char* buf, int size) {
         if (file->eof.Offset + size > PageDB::PAGE_SIZE) {

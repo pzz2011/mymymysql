@@ -8,7 +8,7 @@ namespace PageDB {
         Scheduler* pgdb;
         File* file;
         PageDB::Location loc;
-        PageWriteSession session;
+        PageWriteSession session;    //PageWriteSession
         Iterator(Scheduler* _pgdb, File* _file, int _pageid = -1, int _offset = 0)
             : pgdb(_pgdb), file(_file),
             loc(_pageid, _offset), session(pgdb->GetWriteSession(file, _pageid))
@@ -38,7 +38,7 @@ namespace PageDB {
             throw "Internal Error";
         }
         char& operator[](int idx) {
-            return Get()[idx];
+            return Get()[idx];      // Get() return char*
         }
     };
     struct ConstIterator {
@@ -72,7 +72,7 @@ namespace PageDB {
         }
         virtual Location NextLocation() {
             //TODO: Not Imp
-            throw "Internal Error";
+            //throw "Internal Error";
         }
         const char& operator[](int idx) {
             return Get()[idx];

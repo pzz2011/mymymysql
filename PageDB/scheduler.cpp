@@ -9,19 +9,19 @@ namespace PageDB {
             Schedule();
         }
     }
-    void Scheduler::StartSchedule() {
+    void Scheduler::StartSchedule() {  // 启动调度器
         if (!running) {
             running = true;
             ScheduleThread = std::thread([=](){this->ScheduleLoop();});
         }
     }
-    void Scheduler::StopSchedule() {
+    void Scheduler::StopSchedule() {   // 停止调度器
         if (running) {
             running = false;
             ScheduleThread.join();
         }
     }
-    File* Scheduler::OpenFile(const std::string& fn) {
+    File* Scheduler::OpenFile(const std::string& fn) { //
         File*& file = fileIndex[fn];
         if (file == nullptr) {
             file = new File(fn);
@@ -38,8 +38,8 @@ namespace PageDB {
             for (auto iter = beg; iter != end; iter++)
                 iter->second->Useless();
         }
-        file->initFile();
-        return file;
+        file->initFile();    //初始化文件
+        return file;         //返回初始化后的文件
     }
     PageDesc* Scheduler::GetPage(File* file, int page_id) {
         if (page_id < 0)
@@ -57,7 +57,7 @@ namespace PageDB {
         }
         file->removePage(page_id);
     }
-    PageSession Scheduler::GetSession(File* file, int page_id) {
+    PageSession Scheduler::GetSession(File* file, int page_id) {   //获取会话
         return PageSession(GetPage(file, page_id));
     }
     PageWriteSession Scheduler::GetWriteSession(File* file, int page_id) {

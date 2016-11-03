@@ -23,13 +23,13 @@ namespace PageDB {
         void incRef() {
             used = true;
             ref_mutex.lock();
-            ref++;
+            ref++;             // 增加索引计数
             if (page == nullptr) {
                 page = file->loadPage(page_id);
             }
             ref_mutex.unlock();
         }
-        void decRef() {
+        void decRef() {        // 减小索引计数
             ref_mutex.lock();
             ref--;
             ref_mutex.unlock();

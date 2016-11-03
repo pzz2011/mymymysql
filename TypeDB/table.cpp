@@ -63,7 +63,7 @@ namespace TypeDB {
         }
         throw "Column Not Found";
     }
-    void TableDesc::setPrimary(const std::string& name) {
+    void TableDesc::setPrimary(const std::string& name) { //根据name设置主键索引
         for (std::size_t i = 0; i < descs.size(); i++) {
             if (descs[i].name == name) {
                 primaryIndex = i;
@@ -73,8 +73,8 @@ namespace TypeDB {
         //TODO
         throw "Column Not Found";
     }
-    pObject TableDesc::getPrimary(const Row& row) const {
-        return row.objs[primaryIndex];
+    pObject TableDesc::getPrimary(const Row& row) const { //获取
+        return row.objs[primaryIndex];                    //
     }
     TableDesc TableDesc::merge(const TableDesc& lhs, const TableDesc& rhs) {
         TableDesc ret;

@@ -18,14 +18,14 @@ namespace TypeDB {
                 return tbl + '.' + name;
         }
     };
-    struct Row {
-        std::vector<pObject> objs;
-        static Row merge(const Row& lhs, const Row& rhs);
+    struct Row {     // 行
+        std::vector<pObject> objs; //用vector存储objs
+        static Row merge(const Row& lhs, const Row& rhs);//行合并
     };
     struct TableDesc {
-        std::vector<ColDesc> descs;
-        std::size_t primaryIndex;
-        TableDesc() : primaryIndex(0) {}
+        std::vector<ColDesc> descs;         //列描述
+        std::size_t primaryIndex;           // 主键索引
+        TableDesc() : primaryIndex(0) {}    //
         void setPrimary(const std::string& name);
         void setForeign(const std::string& name, const std::string& fT, const std::string& fK);
         int getIndex(const std::string& tbl, const std::string& name, bool force = false) const;
@@ -35,10 +35,10 @@ namespace TypeDB {
         static TableDesc merge(const TableDesc& lhs, const TableDesc& rhs);
         bool Test(const Row& row) const;
     };
-    struct Table {
-        TableDesc desc;
-        std::vector<Row> rows;
-        std::vector<pObject> getVec(const std::string& tbl, const std::string& name) const;
+    struct Table {               //一个表包含一个表描述符
+        TableDesc desc;          
+        std::vector<Row> rows;   // 以及多个行rows
+        std::vector<pObject> getVec(const std::string& tbl, const std::string& name) const;//
     };
 }
 
